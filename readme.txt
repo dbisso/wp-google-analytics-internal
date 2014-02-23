@@ -15,7 +15,7 @@ Google Analytics gathers lots of data from when users interect with your site fr
 
 This plugin very simply triggers a custom event in Google Analytics when a post is published. That way you can monitor an relationship between publishing and changes in traffic.
 
-That's it at the moment. If there are other event you would like to track, let me know in the support forums or even better on [GitHub](http://github.com/dbisso/google-analytics-internal)
+That's it at the moment. If there are other event you would like to track, let me know in the support forums or even better on [GitHub](http://github.com/dbisso/wp-google-analytics-internal)
 
 If you already have Yoast's [Google Analytics for WordPress](http://wordpress.org/plugins/google-analytics-for-wordpress/) installed and configured, you don't need to do anything as the plugin should find you UA string automatically.
 
