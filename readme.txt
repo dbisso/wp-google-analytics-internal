@@ -11,9 +11,9 @@ Use Google Analytics events to track when you publish posts.
 
 == Description ==
 
-Google Analytics gathers lots of data from when users interect with your site from the front end, but sometimes you need to match this with actions taken in WordPress.
+Google Analytics gathers lots of data from when users interact with your site from the front end, but sometimes you need to match this with actions taken in WordPress.
 
-This plugin very simply triggers a custom event in Google Analytics when a post is published. That way you can monitor an relationship between publishing and changes in traffic.
+This plugin very simply triggers a custom event in Google Analytics when a post is published. That way you can monitor any relationship between publishing and changes in traffic.
 
 That's it at the moment. If there are other event you would like to track, let me know in the support forums or even better on [GitHub](http://github.com/dbisso/wp-google-analytics-internal)
 
