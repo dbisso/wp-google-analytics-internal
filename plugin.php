@@ -1,5 +1,4 @@
 <?php
-
 /*
 Plugin Name: Google Analytics Internal
 Plugin URI: http://danisadesigner.com/plugins/google-analytics-internal
@@ -10,7 +9,7 @@ Author URI: http://danisadesigner.com/
 */
 
 /**
- * Copyright (c) 2014 Your Name. All rights reserved.
+ * Copyright (c) 2014 Dan Bissonnet. All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
