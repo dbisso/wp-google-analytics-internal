@@ -43,6 +43,7 @@ class DBisso_GoogleAnalyticsInternal {
 	 */
 	static public function bootstrap() {
 		add_action( 'publish_post', array( __CLASS__, 'action_publish_post' ), 10, 1 );
+		add_action( 'comment_post', array( __CLASS__, 'action_comment_post' ), 10, 2 );
 		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
 	}
 
@@ -71,6 +72,34 @@ class DBisso_GoogleAnalyticsInternal {
 			$event = new DBisso_GoogleAnalyticsInternal_Event(
 				$action,
 				get_the_title( (int) $post_id )
+			);
+
+			$event->send();
+		}
+	}
+
+	static public function action_comment_post( $comment_id, $status ) {
+		$is_spam        = ('spam' === $status);
+		$is_approved    = (1 === $status);
+		$is_disapproved = (0 === $status);
+		$action         = null;
+
+		$all_action = self::get_event_action( 'comment_post' );
+		$approved_action = self::get_event_action( 'comment_approved' );
+
+		if ( ! $is_spam && $all_action ) {
+			$action = $all_action;
+		}
+
+		if ( $is_approved && $approved_action ) {
+			$action = $approved_action;
+		}
+
+		if ( is_string( $action ) ) {
+			$comment = get_comment( $comment_id );
+			$event   = new DBisso_GoogleAnalyticsInternal_Event(
+				$action,
+				get_the_title( (int) $comment->comment_post_ID )
 			);
 
 			$event->send();
