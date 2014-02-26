@@ -37,6 +37,7 @@ include_once 'lib/DBisso_GoogleAnalyticsInternal_Event.php';
  * occur.
  */
 class DBisso_GoogleAnalyticsInternal {
+	const OPTION = 'dbisso_gai_options';
 	/**
 	 * Set up and bind hooks.
 	 */
@@ -66,6 +67,20 @@ class DBisso_GoogleAnalyticsInternal {
 
 		$event->send();
 	}
+
+	/**
+	 * Get plugins options
+	 */
+	static private function get_options() {
+		$data = get_option( self::OPTION, self::get_option_defaults() );
+	}
+
+	static private function get_options_defaults() {
+		return array(
+			'separate_update_events' => false,
+		);
+	}
+
 	/**
 	 * Get the action string for a given WP event
 	 * @param  string $hook The name of the hook.
