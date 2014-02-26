@@ -59,9 +59,16 @@ class DBisso_GoogleAnalyticsInternal {
 	 */
 	static public function action_publish_post( $post_id ) {
 		$separate_update_events = self::get_option( 'separate_update_events' );
+		$is_post_published = self::is_post_published( $post_id );
+
+		if ( $separate_update_events && $is_post_published ) {
+			$action = self::get_event_action( 'update_post' );
+		} else {
+			$action = self::get_event_action( 'publish_post' );
+		}
 
 		$event = new DBisso_GoogleAnalyticsInternal_Event(
-			self::get_event_action( 'publish_post' ),
+			$action,
 			get_the_title( (int) $post_id )
 		);
 
