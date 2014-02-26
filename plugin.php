@@ -71,6 +71,12 @@ class DBisso_GoogleAnalyticsInternal {
 		self::maybe_send_post_event( $action, $post_id );
 	}
 
+	/**
+	 * Trigger GA event when a comment is submitted / approved.
+	 *
+	 * @param  int        $comment_id The comment ID.
+	 * @param  string|int $status     The comment status.
+	 */
 	static public function action_comment_post( $comment_id, $status ) {
 		$is_spam        = ('spam' === $status);
 		$is_approved    = (1 === $status);
@@ -80,12 +86,12 @@ class DBisso_GoogleAnalyticsInternal {
 		$submitted_action = self::get_event_action( 'comment_submitted' );
 		$approved_action  = self::get_event_action( 'comment_approved' );
 
-		// If the comment isn't spam start with the submitted action
+		// If the comment isn't spam start with the submitted action.
 		if ( ! $is_spam && $submitted_action ) {
 			$action = $submitted_action;
 		}
 
-		// If the comment had been auto approved then override with
+		// If the comment had been auto approved then override with.
 		// the approved action.
 		if ( $is_approved && $approved_action ) {
 			$action = $approved_action;
