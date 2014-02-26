@@ -105,6 +105,9 @@ class DBisso_GoogleAnalyticsInternal {
 		return apply_filters( 'dbisso_gai_event_actions', $actions );
 	}
 
+	static private function is_post_published( $post_id ) {
+		return get_post_status( $post_id ) === 'publish';
+	}
 }
 
 // Start the plugin.
