@@ -84,13 +84,16 @@ class DBisso_GoogleAnalyticsInternal {
 		$is_disapproved = (0 === $status);
 		$action         = null;
 
-		$all_action = self::get_event_action( 'comment_post' );
-		$approved_action = self::get_event_action( 'comment_approved' );
+		$submitted_action = self::get_event_action( 'comment_submitted' );
+		$approved_action  = self::get_event_action( 'comment_approved' );
 
-		if ( ! $is_spam && $all_action ) {
-			$action = $all_action;
+		// If the comment isn't spam start with the submitted action
+		if ( ! $is_spam && $submitted_action ) {
+			$action = $submitted_action;
 		}
 
+		// If the comment had been auto approved then override with
+		// the approved action.
 		if ( $is_approved && $approved_action ) {
 			$action = $approved_action;
 		}
@@ -146,7 +149,7 @@ class DBisso_GoogleAnalyticsInternal {
 		$actions = array(
 			'publish_post' => __( 'Publish Post', 'dbisso-google-analytics-internal' ),
 			'update_post' => __( 'Update Post', 'dbisso-google-analytics-internal' ),
-			'comment_post' => __( 'Comment Submitted', 'dbisso-google-analytics-internal' ),
+			'comment_submitted' => __( 'Comment Submitted', 'dbisso-google-analytics-internal' ),
 			'comment_approved' => __( 'Comment Approved', 'dbisso-google-analytics-internal' )
 		);
 
