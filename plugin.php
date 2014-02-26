@@ -67,12 +67,14 @@ class DBisso_GoogleAnalyticsInternal {
 			$action = self::get_event_action( 'publish_post' );
 		}
 
-		$event = new DBisso_GoogleAnalyticsInternal_Event(
-			$action,
-			get_the_title( (int) $post_id )
-		);
+		if ( is_string( $action ) ) {
+			$event = new DBisso_GoogleAnalyticsInternal_Event(
+				$action,
+				get_the_title( (int) $post_id )
+			);
 
-		$event->send();
+			$event->send();
+		}
 	}
 
 	/**
