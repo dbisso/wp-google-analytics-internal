@@ -48,7 +48,7 @@ class DBisso_GoogleAnalyticsInternal {
 	/**
 	 * Load our text domain
 	 */
-	function plugins_loaded() {
+	static public function plugins_loaded() {
 		load_plugin_textdomain( 'dbisso-google-analytics-internal', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
