@@ -77,6 +77,10 @@ class DBisso_GoogleAnalyticsInternal {
 		return $data;
 	}
 
+	static private function get_option( $name ) {
+		$options = self::get_options();
+
+		return $options[$name];
 	}
 
 	static private function get_options_defaults() {
