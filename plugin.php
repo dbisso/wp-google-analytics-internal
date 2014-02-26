@@ -72,7 +72,11 @@ class DBisso_GoogleAnalyticsInternal {
 	 * Get plugins options
 	 */
 	static private function get_options() {
-		$data = get_option( self::OPTION, self::get_option_defaults() );
+		$data = get_option( self::OPTION, self::get_options_defaults() );
+
+		return $data;
+	}
+
 	}
 
 	static private function get_options_defaults() {
