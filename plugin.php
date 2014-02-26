@@ -92,7 +92,7 @@ class DBisso_GoogleAnalyticsInternal {
 
 	static private function get_options_defaults() {
 		return array(
-			'separate_update_events' => false,
+			'separate_update_events' => true,
 		);
 	}
 
