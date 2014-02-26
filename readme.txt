@@ -3,7 +3,7 @@ Contributors: dbisso
 Tags: google analytics, events, internal, publish, yoast
 Requires at least: 3.8.1
 Tested up to: 3.9
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,5 +39,11 @@ If you don't have Yoast's plugin, you can set your UA string in your `wp-config.
 
 == Changelog ==
 
-= 0.1 =
+= 0.2.0 =
+* Include name in copyright statement
+* Introduce `DBisso_GoogleAnalyticsInternal_Event` to manage the sending of events
+* Introduct filter `dbisso_gai_event_data` to filter data just before event is send
+* I18n for some strings
+
+= 0.1.0 =
 * Initial release
