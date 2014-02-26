@@ -40,10 +40,15 @@ If you don't have Yoast's plugin, you can set your UA string in your `wp-config.
 == Changelog ==
 
 = 0.2.0 =
-* Include name in copyright statement
-* Introduce `DBisso_GoogleAnalyticsInternal_Event` to manage the sending of events
-* Introduct filter `dbisso_gai_event_data` to filter data just before event is send
-* I18n for some strings
+* Updates to posts are now given a separate category (`Update Post`) from initial publishing.
+* Introduce filter `dbisso_gai_event_data` to filter data just before event is send.
+* Introduce filter `dbisso_gai_event_actions` to set the action strings for different WP.
+* I18n for some strings.
+* Add tracking of a comment is posted or approved.
+events.
+* Introduce `DBisso_GoogleAnalyticsInternal_Event` to manage the sending of events.
+* Include my name in copyright statement!
+
 
 = 0.1.0 =
 * Initial release
