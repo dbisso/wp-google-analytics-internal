@@ -68,14 +68,7 @@ class DBisso_GoogleAnalyticsInternal {
 			$action = self::get_event_action( 'publish_post' );
 		}
 
-		if ( is_string( $action ) ) {
-			$event = new DBisso_GoogleAnalyticsInternal_Event(
-				$action,
-				get_the_title( (int) $post_id )
-			);
-
-			$event->send();
-		}
+		self::maybe_send_post_event( $action, $post_id );
 	}
 
 	static public function action_comment_post( $comment_id, $status ) {
@@ -98,11 +91,21 @@ class DBisso_GoogleAnalyticsInternal {
 			$action = $approved_action;
 		}
 
+		$comment = get_comment( $comment_id );
+		self::maybe_send_post_event( $action, $comment->comment_post_ID );
+	}
+
+	/**
+	 * Create and dispatch the event only if we have a value action.
+	 *
+	 * @param  string $action  The action stirng
+	 * @param  int    $post_id The post ID the action relates to
+	 */
+	static private function maybe_send_post_event( $action, $post_id ) {
 		if ( is_string( $action ) ) {
-			$comment = get_comment( $comment_id );
-			$event   = new DBisso_GoogleAnalyticsInternal_Event(
+			$event = new DBisso_GoogleAnalyticsInternal_Event(
 				$action,
-				get_the_title( (int) $comment->comment_post_ID )
+				get_the_title( (int) $post_id )
 			);
 
 			$event->send();
