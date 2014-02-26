@@ -95,7 +95,9 @@ class DBisso_GoogleAnalyticsInternal {
 	 * @return string       The action for the hook.
 	 */
 	static private function get_event_action( $hook ) {
-		return self::get_event_action( $hook );
+		$actions = self::get_event_actions();
+
+		return $actions[$hook];
 	}
 
 	/**
