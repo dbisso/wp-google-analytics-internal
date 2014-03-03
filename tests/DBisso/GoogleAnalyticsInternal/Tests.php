@@ -68,10 +68,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$request_body = $this->http_spy_get_request_body();
 		$this->http_spy_clean();
 
-		$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
-		$this->assertArrayHasKey( 'el', $request_body, 'The request body has no label key ("el")' );
-		$this->assertArrayHasKey( 'ea', $request_body, 'The request body has no aciton key ("ea")' );
-
+		$this->assertGAIRequestBodyIsValid( $request_body );
 		$this->assertEquals( $request_body['el'], $post_title, 'The post title was not sent as the event label' );
 		$this->assertEquals( $request_body['ea'], 'Publish Post', '"Publish Post" was not set as the event action' );
 	}
@@ -89,11 +86,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$request_body = $this->http_spy_get_request_body();
 		$this->http_spy_clean();
 
-		$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
-
-		$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
-		$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
-
+		$this->assertGAIRequestBodyIsValid( $request_body );
 		$this->assertEquals( $request_body['ea'], 'Update Post', '"Update Post" was not set as the event action' );
 	}
 
@@ -137,11 +130,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 			$this->assertTrue( is_null( $request_body ) );
 		} else {
 			// Otherwise test the request
-			$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
-
-			$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
-			$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
-
+			$this->assertGAIRequestBodyIsValid( $request_body );
 			$this->assertEquals( $expected_action, $request_body['ea'] , '"Comment Approved" was not set as the event action' );
 			$this->assertEquals( get_the_title( $post_id ), $request_body['el'], 'Post title was not set as the event label' );
 		}

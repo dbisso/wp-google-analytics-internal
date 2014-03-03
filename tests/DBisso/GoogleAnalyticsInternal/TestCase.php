@@ -12,6 +12,12 @@ class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase
 		return DBISSO_GA_UA;
 	}
 
+	protected function assertGAIRequestBodyIsValid( $request_body ) {
+		$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
+		$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
+		$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
+	}
+
 	protected function http_spy( $return = true ) {
 		add_filter(
 			'pre_http_request',
