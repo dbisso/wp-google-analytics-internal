@@ -25,13 +25,12 @@ class DBisso_GoogleAnalyticsInternal {
 	}
 
 	/**
-	 * Trigger the GA event when a post is published
-	 * @param  int $post_id The post ID.
+	 * Return the correct event action to send.
+	 *
+	 * @param  string       $new_status The newly set status.
+	 * @param  string       $old_status The old status.
+	 * @return string|false The event action to send.
 	 */
-	static public function action_publish_post( $post_id ) {
-
-	}
-
 	static public function get_post_event_action( $new_status, $old_status  ) {
 		$separate_update_events = self::get_option( 'separate_update_events' );
 		$is_post_published      = $old_status === 'publish';
@@ -48,7 +47,10 @@ class DBisso_GoogleAnalyticsInternal {
 		return $action;
 	}
 
-
+	/**
+	 * Trigger the GA event when a post is published
+	 * @param  int $post_id The post ID.
+	 */
 	static public function action_transition_post_status( $new_status, $old_status, $post ) {
 		$action = self::get_post_event_action( $new_status, $old_status );
 
