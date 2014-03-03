@@ -14,13 +14,6 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		Plugin::bootstrap();
 	}
 
-	protected function maybeDefineUAString() {
-		if ( !defined( 'DBISSO_GA_UA' ) ) {
-			$ua_string = 'UA-000000-XX';
-			define( 'DBISSO_GA_UA', $ua_string );
-		}
-	}
-
 	public function testInitialization() {
 		$this->assertTrue( class_exists( 'DBisso_GoogleAnalyticsInternal_Event' ), "Plugin class doesn't exist" );
 	}

@@ -26,9 +26,7 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 	 * @todo   Implement testSend().
 	 */
 	public function testSend() {
-		$ua_string = 'UA-000000-XX';
-		define( 'DBISSO_GA_UA', $ua_string );
-
+		$ua_string      = $this->maybeDefineUAString();
 		$wp_user_id     = get_current_user_id();
 		$event_category = 'WordPress_Test';
 		$event_label    = 'A label';

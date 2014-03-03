@@ -3,6 +3,15 @@
 class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase {
 	public $http_spy_content;
 
+	protected function maybeDefineUAString() {
+		if ( !defined( 'DBISSO_GA_UA' ) ) {
+			$ua_string = 'UA-000000-XX';
+			define( 'DBISSO_GA_UA', $ua_string );
+		}
+
+		return DBISSO_GA_UA;
+	}
+
 	protected function http_spy( $return = true ) {
 		add_filter(
 			'pre_http_request',
