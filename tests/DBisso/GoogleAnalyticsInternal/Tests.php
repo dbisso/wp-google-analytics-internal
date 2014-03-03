@@ -15,7 +15,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 	}
 
 	public function testInitialization() {
-		$this->assertTrue( class_exists( 'DBisso_GoogleAnalyticsInternal_Event' ), "Plugin class doesn't exist" );
+		$this->assertTrue( class_exists( 'DBisso_GoogleAnalyticsInternal' ), "Plugin class doesn't exist" );
 	}
 
 	/**
