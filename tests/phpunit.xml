@@ -1,0 +1,15 @@
+<phpunit
+	bootstrap="wordpress-tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	strict="true"
+>
+	<testsuites>
+		<testsuite name="All tests">
+			<directory suffix="Tests.php">.</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
