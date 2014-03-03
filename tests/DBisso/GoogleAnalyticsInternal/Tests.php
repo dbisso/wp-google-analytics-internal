@@ -136,6 +136,29 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		}
 	}
 
+	public function testUnapprovedCommentTriggersEventOnApproval() {
+		$post_id = 1;
+		$post    = get_post( $post_id );
+
+		$data                     = $this->getAComment();
+		$data['comment_post_ID']  = $post_id;
+		$data['comment_approved'] = 0;
+
+		$comment_id = wp_insert_comment( $data );
+
+		$data['comment_ID'] = $comment_id;
+		$data['comment_approved'] = 1;
+
+		$this->http_spy();
+		wp_update_comment( $data );
+
+		$request_body = $this->http_spy_get_request_body();
+
+		$this->assertGAIRequestBodyIsValid( $request_body );
+		$this->assertEquals( 'Comment Approved', $request_body['ea'] , '"Comment Approved" was not set as the event action' );
+		$this->assertEquals( get_the_title( $post_id ), $request_body['el'], 'Post title was not set as the event label' );
+	}
+
 	private function getAComment() {
 		$time = current_time( 'mysql' );
 		$data = array(
