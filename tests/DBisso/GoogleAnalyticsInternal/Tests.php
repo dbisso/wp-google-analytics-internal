@@ -144,8 +144,10 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$data['comment_post_ID']  = $post_id;
 		$data['comment_approved'] = 0;
 
+		// Insert unapproved comment
 		$comment_id = wp_insert_comment( $data );
 
+		// Mark comment as approved
 		$data['comment_ID'] = $comment_id;
 		$data['comment_approved'] = 1;
 
