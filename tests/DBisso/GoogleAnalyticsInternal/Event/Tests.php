@@ -43,8 +43,7 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 		$event->send();
 
 		// Get the response
-		$response = $this->http_spy_get_clean();
-		$request  = $response['request'];
+		$request_body = $this->http_spy_get_request_body();
 
 		$expected_request_body = array(
 			'v'   => 1,
@@ -56,6 +55,6 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 			'el'  => $event_label,
 		);
 
-		$this->assertEquals( $request['body'], $expected_request_body );
+		$this->assertEquals( $expected_request_body, $request_body );
 	}
 }
