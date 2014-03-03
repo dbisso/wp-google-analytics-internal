@@ -56,13 +56,7 @@ class DBisso_GoogleAnalyticsInternal {
 		self::maybe_send_post_event( $action, $post->ID );
 	}
 
-	/**
-	 * Trigger GA event when a comment is submitted / approved.
-	 *
-	 * @param  int        $comment_id The comment ID.
-	 * @param  string|int $status     The comment status.
-	 */
-	static public function action_comment_post( $comment_id, $status ) {
+	static public function get_comment_event_action( $status ) {
 		$is_spam        = ('spam' === $status);
 		$is_approved    = (1 === $status);
 		$is_disapproved = (0 === $status);
@@ -82,6 +76,17 @@ class DBisso_GoogleAnalyticsInternal {
 			$action = $approved_action;
 		}
 
+		return $action;
+	}
+
+	/**
+	 * Trigger GA event when a comment is submitted / approved.
+	 *
+	 * @param  int        $comment_id The comment ID.
+	 * @param  string|int $status     The comment status.
+	 */
+	static public function action_comment_post( $comment_id, $status ) {
+		$action  = self::get_comment_event_action( $status );
 		$comment = get_comment( $comment_id );
 		self::maybe_send_post_event( $action, $comment->comment_post_ID );
 	}
