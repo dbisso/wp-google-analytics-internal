@@ -97,6 +97,24 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$this->assertEquals( $request_body['ea'], 'Update Post', '"Update Post" was not set as the event action' );
 	}
 
+	public function dataCommentStatus() {
+		return array(
+			array( 'spam', null ),
+			array( 0, 'Comment Submitted' ),
+			array( 1, 'Comment Approved' ),
+		);
+	}
+
+	/**
+	 * @dataProvider dataCommentStatus
+	 * @param  string|int $status      Comment status
+	 * @param  string $expected_action The event action
+	 */
+	public function testActionCommentPost( $status, $expected_action ) {
+		$action = Plugin::get_comment_event_action( $status );
+		$this->assertEquals( $expected_action, $action );
+	}
+
 	/**
 	 * @covers DBisso_GoogleAnalyticsInternal::action_comment_post
 	 * @todo   Implement testAction_comment_post().
