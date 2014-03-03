@@ -116,13 +116,39 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 	}
 
 	/**
-	 * @covers DBisso_GoogleAnalyticsInternal::action_comment_post
-	 * @todo   Implement testAction_comment_post().
+     * Test the triggering of events when a comment is posted and approved
 	 */
-	public function testAction_comment_post() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+	public function testActionCommentApproved() {
+		$post_id = 1;
+		$post = get_post( $post_id );
+		$time = current_time( 'mysql' );
+
+		$data = array(
+			'comment_post_ID' => $post_id,
+			'comment_author' => 'admin',
+			'comment_author_email' => 'admin@admin.com',
+			'comment_author_url' => 'http://',
+			'comment_content' => 'content here',
+			'comment_type' => '',
+			'comment_parent' => 0,
+			'user_id' => 1,
+			'comment_author_IP' => '127.0.0.1',
+			'comment_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)',
+			'comment_date' => $time,
+			'comment_approved' => 1,
 		);
+
+		$this->http_spy();
+		wp_insert_comment( $data );
+
+		$request_body = $this->http_spy_get_request_body();
+
+		$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
+
+		$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
+		$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
+
+		$this->assertEquals( $request_body['ea'], 'Comment Approved', '"Comment Approved" was not set as the event action' );
+		$this->assertEquals( $request_body['el'], get_the_title( $post_id ), 'Post title was not set as the event label' );
 	}
 }
