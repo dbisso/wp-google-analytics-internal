@@ -1,7 +1,7 @@
 <?php
 
 class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase {
-	public $http_spy_content;
+	public $http_spy_content = array();
 
 	protected function maybeDefineUAString() {
 		if ( !defined( 'DBISSO_GA_UA' ) ) {
@@ -31,7 +31,7 @@ class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase
 		$http_spy_content =& $this->http_spy_content;
 
 		return function ( $false, $request, $url ) use ( &$http_spy_content, $return ) {
-			$http_spy_content = array(
+			$http_spy_content[] = array(
 				'headers' =>
 					array(
 						'pragma' => 'no-cache',
@@ -64,11 +64,12 @@ class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase
 	}
 
 	protected function http_spy_get_request() {
-		return $this->http_spy_content['request'];
+		return $this->http_spy_get_last_request();
 	}
 
 	protected function http_spy_get_request_body() {
-		return $this->http_spy_content['request']['body'];
+		$last_request = $this->http_spy_get_last_request();
+		return $last_request['body'];
 	}
 
 	protected function http_spy_clean() {
@@ -82,5 +83,19 @@ class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase
 		return $value;
 	}
 
+	protected function http_spy_get_requests() {
+		$requests = array();
 
+		foreach ( $this->http_spy_content as $content ) {
+			$requests[] = $content['request'];
+		}
+
+		return $requests;
+	}
+
+	protected function http_spy_get_last_request() {
+		if ( count( $this->http_spy_content ) > 0 ) {
+			return $this->http_spy_content[count( $this->http_spy_content ) - 1]['request'];
+		}
+	}
 }
