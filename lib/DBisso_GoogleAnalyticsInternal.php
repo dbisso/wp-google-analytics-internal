@@ -11,7 +11,6 @@ class DBisso_GoogleAnalyticsInternal {
 	 * Set up and bind hooks.
 	 */
 	static public function bootstrap() {
-		add_action( 'publish_post', array( __CLASS__, 'action_publish_post' ), 10, 1 );
 		add_action( 'transition_post_status', array( __CLASS__, 'action_transition_post_status' ), 10, 3 );
 		add_action( 'comment_post', array( __CLASS__, 'action_comment_post' ), 10, 2 );
 		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
