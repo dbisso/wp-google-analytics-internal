@@ -136,6 +136,31 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		}
 	}
 
+	public function testAutoApprovedCommentTriggersSubmittedEvent() {
+		$post_id = 1;
+		$post    = get_post( $post_id );
+
+		$data                     = $this->getAComment();
+		$data['comment_post_ID']  = $post_id;
+		$data['comment_approved'] = 1;
+
+		$this->http_spy();
+		wp_insert_comment( $data );
+
+		$requests = $this->http_spy_get_requests();
+
+		$this->assertCount( 2, $requests, 'The wrong number of GA requests were made' );
+
+		$last_request        = array_pop( $requests );
+		$penultimate_request = array_pop( $requests );
+
+		$this->assertGAIRequestBodyIsValid( $last_request['body'] );
+		$this->assertGAIRequestBodyIsValid( $penultimate_request['body'] );
+
+		$this->assertEquals( 'Comment Approved', $last_request['body']['ea'] , '"Comment Approved" was not set as the last event action' );
+		$this->assertEquals( 'Comment Submitted', $penultimate_request['body']['ea'] , '"Comment Submitted" was not set as the penultimate event action' );
+	}
+
 	public function testUnapprovedCommentTriggersEventOnApproval() {
 		$post_id = 1;
 		$post    = get_post( $post_id );
