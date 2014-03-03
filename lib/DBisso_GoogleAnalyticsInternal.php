@@ -58,8 +58,8 @@ class DBisso_GoogleAnalyticsInternal {
 
 	static public function get_comment_event_action( $status ) {
 		$is_spam        = ('spam' === $status);
-		$is_approved    = (1 === $status);
-		$is_disapproved = (0 === $status);
+		$is_approved    = (1 === (int) $status);
+		$is_disapproved = (0 === (int) $status);
 		$action         = null;
 
 		$submitted_action = self::get_event_action( 'comment_submitted' );
