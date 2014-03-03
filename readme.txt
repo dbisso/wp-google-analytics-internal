@@ -38,6 +38,26 @@ If you don't have Yoast's plugin, you can set your UA string in your `wp-config.
 
 `define( 'DBISSO_GA_UA', 'UA-XXXXXXXX-Y' );`
 
+== Configuration ==
+
+Currently there is no GUI for the plugin, but you can use the `dbisso_gai_event_actions` filter to choose which events you want to be triggered and what the Google Analytics event action will be. For example:
+
+~~~
+add_filter( 'dbisso_gai_event_actions', 'custom_theme_filter_dbisso_gai_event_actions', 10, 1 );
+
+function custom_theme_filter_dbisso_gai_event_actions( $actions ) {
+	// Don't send 'update post' events
+	$actions['update_post'] = false;
+
+	// Change the action name that appears in Google Analytics
+	$actions['publish_post'] = __( 'Publish Post' ),
+
+	return $actions
+}
+~~~
+
+There are currently four actions `publish_post`, `update_posts`, `comment_submitted` and `comment_approved`.
+
 
 == Changelog ==
 
@@ -45,9 +65,10 @@ If you don't have Yoast's plugin, you can set your UA string in your `wp-config.
 * Feature: Add tracking when a comment is posted or approved.
 * Introduce filter `dbisso_gai_event_data` to filter data just before event is sent.
 * Introduce filter `dbisso_gai_event_actions` to set the action strings for different WP.
-* Updates to posts are now given a separate category (`Update Post`) from initial publishing.
+* Updates to posts are now have a separate action ('Update Post').
 * I18n for some strings.
 * Introduce `DBisso_GoogleAnalyticsInternal_Event` to manage the sending of events.
+* Add some basic unit tests
 * Include my name in copyright statement!
 
 = 0.1.0 =
