@@ -43,7 +43,7 @@ If you don't have Yoast's plugin, you can set your UA string in your `wp-config.
 
 = 0.2.0 =
 * Feature: Add tracking when a comment is posted or approved.
-* Introduce filter `dbisso_gai_event_data` to filter data just before event is send.
+* Introduce filter `dbisso_gai_event_data` to filter data just before event is sent.
 * Introduce filter `dbisso_gai_event_actions` to set the action strings for different WP.
 * Updates to posts are now given a separate category (`Update Post`) from initial publishing.
 * I18n for some strings.
