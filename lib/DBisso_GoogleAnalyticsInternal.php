@@ -12,6 +12,7 @@ class DBisso_GoogleAnalyticsInternal {
 	 */
 	static public function bootstrap() {
 		add_action( 'transition_post_status', array( __CLASS__, 'action_transition_post_status' ), 10, 3 );
+		add_action( 'transition_comment_status', array( __CLASS__, 'action_transition_comment_status' ), 10, 3 );
 		add_action( 'wp_insert_comment', array( __CLASS__, 'action_wp_insert_comment' ), 10, 2 );
 		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
 	}
@@ -58,8 +59,8 @@ class DBisso_GoogleAnalyticsInternal {
 
 	static public function get_comment_event_action( $status ) {
 		$is_spam        = ('spam' === $status);
-		$is_approved    = (1 === (int) $status);
-		$is_disapproved = (0 === (int) $status);
+		$is_approved    = ('approved' === $status || 1 === (int) $status);
+		$is_disapproved = ('unapproved' === $status || 0 === (int) $status);
 		$action         = null;
 
 		$submitted_action = self::get_event_action( 'comment_submitted' );
@@ -77,6 +78,11 @@ class DBisso_GoogleAnalyticsInternal {
 		}
 
 		return $action;
+	}
+
+	static public function action_transition_comment_status( $new_status, $old_status, $comment ) {
+		$action = self::get_comment_event_action( $new_status );
+		self::maybe_send_post_event( $action, $comment->comment_post_ID );
 	}
 
 	/**
