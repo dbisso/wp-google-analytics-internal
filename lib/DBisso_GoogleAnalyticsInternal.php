@@ -106,7 +106,13 @@ class DBisso_GoogleAnalyticsInternal {
 	**/
 	static public function action_wp_insert_comment( $comment_id, $comment ) {
 		$action = self::get_comment_event_action( $comment->comment_approved );
+
+		if ( self::get_event_action( 'comment_approved' ) && $action === self::get_event_action( 'comment_approved' ) ) {
+			self::maybe_send_post_event( self::get_event_action( 'comment_submitted' ), $comment->comment_post_ID );
+		}
+
 		self::maybe_send_post_event( $action, $comment->comment_post_ID );
+
 	}
 
 	/**
