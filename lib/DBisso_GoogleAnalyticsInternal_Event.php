@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A Google Analytics Measurement Protocol Event
  */
@@ -8,8 +7,8 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	private $action;
 	private $label = false;
 	private $value = false;
-	private $ga_endpoint = 'https://ssl.google-analytics.com/collect';
-
+	private $category = 'WordPress';
+	private $ga_endpoint = 'http://example.com';// 'https://ssl.google-analytics.com/collect';
 
 	/**
 	 * Contstruct the evenet
@@ -80,7 +79,7 @@ class DBisso_GoogleAnalyticsInternal_Event {
 			'v' => 1,
 			'tid' => $ua,
 			'cid' => get_current_user_id(),
-			'ec' => 'WordPress',
+			'ec' => $this->category,
 		);
 
 		return $data;
@@ -107,5 +106,9 @@ class DBisso_GoogleAnalyticsInternal_Event {
 		}
 
 		return $ua;
+	}
+
+	public function set_category( $category ) {
+		$this->category = $category;
 	}
 }
