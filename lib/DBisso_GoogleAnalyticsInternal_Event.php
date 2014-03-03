@@ -8,7 +8,7 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	private $label = false;
 	private $value = false;
 	private $category = 'WordPress';
-	private $ga_endpoint = 'http://example.com';// 'https://ssl.google-analytics.com/collect';
+	private $ga_endpoint = 'https://ssl.google-analytics.com/collect';
 
 	/**
 	 * Contstruct the evenet
