@@ -12,7 +12,7 @@ class DBisso_GoogleAnalyticsInternal {
 	 */
 	static public function bootstrap() {
 		add_action( 'transition_post_status', array( __CLASS__, 'action_transition_post_status' ), 10, 3 );
-		add_action( 'comment_post', array( __CLASS__, 'action_comment_post' ), 10, 2 );
+		add_action( 'wp_insert_comment', array( __CLASS__, 'action_wp_insert_comment' ), 10, 2 );
 		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
 	}
 
@@ -84,10 +84,9 @@ class DBisso_GoogleAnalyticsInternal {
 	 *
 	 * @param  int        $comment_id The comment ID.
 	 * @param  string|int $status     The comment status.
-	 */
-	static public function action_comment_post( $comment_id, $status ) {
-		$action  = self::get_comment_event_action( $status );
-		$comment = get_comment( $comment_id );
+	**/
+	static public function action_wp_insert_comment( $comment_id, $comment ) {
+		$action  = self::get_comment_event_action( $comment->comment_approved );
 		self::maybe_send_post_event( $action, $comment->comment_post_ID );
 	}
 
