@@ -18,6 +18,10 @@ class DBisso_GoogleAnalyticsInternal_TestCase extends PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
 	}
 
+	protected function assertGAIRequestBodyIsNotValid( $request_body ) {
+		$this->assertFalse( is_array( $request_body ), 'HTTP Request body is not an array' );
+	}
+
 	protected function http_spy( $return = true ) {
 		add_filter(
 			'pre_http_request',

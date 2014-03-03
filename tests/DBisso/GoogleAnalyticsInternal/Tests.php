@@ -90,6 +90,30 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$this->assertEquals( $request_body['ea'], 'Update Post', '"Update Post" was not set as the event action' );
 	}
 
+	public function testSettingPostActionToFalsePreventsEvent() {
+		$post_id    = 1;
+		$post_title = get_the_title( 1 );
+		$remove_publish_post = function( $actions ) {
+			$actions['publish_post'] = false;
+			return $actions;
+		};
+
+		// Make sure we have a draft
+		wp_update_post( array( 'ID' => 1, 'post_status' => 'draft' ) );
+		$this->assertEquals( get_post_status( 1 ), 'draft' );
+
+		add_filter( 'dbisso_gai_event_actions', $remove_publish_post );
+
+		$this->http_spy();
+		wp_update_post( array( 'ID' => 1, 'post_status' => 'publish' ) );
+		$request_body = $this->http_spy_get_request_body();
+		$this->http_spy_clean();
+
+		remove_filter( 'dbisso_gai_event_actions', $remove_publish_post, 10, 1 );
+
+		$this->assertGAIRequestBodyIsNotValid( $request_body );
+	}
+
 	public function dataCommentStatus() {
 		return array(
 			array( 'spam', null ),
@@ -185,6 +209,8 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$this->assertEquals( 'Comment Approved', $request_body['ea'] , '"Comment Approved" was not set as the event action' );
 		$this->assertEquals( get_the_title( $post_id ), $request_body['el'], 'Post title was not set as the event label' );
 	}
+
+
 
 	private function getAComment() {
 		$time = current_time( 'mysql' );
