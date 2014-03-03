@@ -117,14 +117,39 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 
 	/**
      * Test the triggering of events when a comment is posted and approved
+     * @dataProvider dataCommentStatus
 	 */
-	public function testActionCommentApproved() {
+	public function testCommentStatusEvent( $status, $expected_action ) {
 		$post_id = 1;
-		$post = get_post( $post_id );
-		$time = current_time( 'mysql' );
+		$post    = get_post( $post_id );
 
+		$data                     = $this->getAComment();
+		$data['comment_post_ID']  = $post_id;
+		$data['comment_approved'] = $status;
+
+		$this->http_spy();
+		wp_insert_comment( $data );
+
+		$request_body = $this->http_spy_get_request_body();
+
+		if  ( is_null( $expected_action ) ) {
+			// NULL action should result in no request being sent
+			$this->assertTrue( is_null( $request_body ) );
+		} else {
+			// Otherwise test the request
+			$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
+
+			$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
+			$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
+
+			$this->assertEquals( $expected_action, $request_body['ea'] , '"Comment Approved" was not set as the event action' );
+			$this->assertEquals( get_the_title( $post_id ), $request_body['el'], 'Post title was not set as the event label' );
+		}
+	}
+
+	private function getAComment() {
+		$time = current_time( 'mysql' );
 		$data = array(
-			'comment_post_ID' => $post_id,
 			'comment_author' => 'admin',
 			'comment_author_email' => 'admin@admin.com',
 			'comment_author_url' => 'http://',
@@ -135,20 +160,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 			'comment_author_IP' => '127.0.0.1',
 			'comment_agent' => 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.10) Gecko/2009042316 Firefox/3.0.10 (.NET CLR 3.5.30729)',
 			'comment_date' => $time,
-			'comment_approved' => 1,
+			'comment_approved' => 0,
 		);
-
-		$this->http_spy();
-		wp_insert_comment( $data );
-
-		$request_body = $this->http_spy_get_request_body();
-
-		$this->assertTrue( is_array( $request_body ), 'HTTP Request body is not an array' );
-
-		$this->assertArrayHasKey( 'ea', $request_body, 'The event request body has no action' );
-		$this->assertArrayHasKey( 'el', $request_body, 'The event request body has no label' );
-
-		$this->assertEquals( $request_body['ea'], 'Comment Approved', '"Comment Approved" was not set as the event action' );
-		$this->assertEquals( $request_body['el'], get_the_title( $post_id ), 'Post title was not set as the event label' );
 	}
 }
