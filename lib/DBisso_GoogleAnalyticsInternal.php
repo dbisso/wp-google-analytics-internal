@@ -57,6 +57,12 @@ class DBisso_GoogleAnalyticsInternal {
 		self::maybe_send_post_event( $action, $post->ID );
 	}
 
+	/**
+	 * Return the correct comment event action to send for new comments.
+	 *
+	 * @param  string       $status The newly set status.
+	 * @return string|null The event action to send.
+	 */
 	static public function get_comment_event_action( $status ) {
 		$is_spam        = ('spam' === $status);
 		$is_approved    = ('approved' === $status || 1 === (int) $status);
@@ -80,6 +86,13 @@ class DBisso_GoogleAnalyticsInternal {
 		return $action;
 	}
 
+	/**
+	 * Trigger GA event on comment status change.
+	 *
+	 * @param  string $new_status New status.
+	 * @param  string $old_status Old status.
+	 * @param  stdClass $comment  Comment object.
+	 */
 	static public function action_transition_comment_status( $new_status, $old_status, $comment ) {
 		$action = self::get_comment_event_action( $new_status );
 		self::maybe_send_post_event( $action, $comment->comment_post_ID );
@@ -92,7 +105,7 @@ class DBisso_GoogleAnalyticsInternal {
 	 * @param  string|int $status     The comment status.
 	**/
 	static public function action_wp_insert_comment( $comment_id, $comment ) {
-		$action  = self::get_comment_event_action( $comment->comment_approved );
+		$action = self::get_comment_event_action( $comment->comment_approved );
 		self::maybe_send_post_event( $action, $comment->comment_post_ID );
 	}
 
