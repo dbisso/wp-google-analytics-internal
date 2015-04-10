@@ -59,7 +59,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 
 		// Make sure we have a draft
 		wp_update_post( array( 'ID' => 1, 'post_status' => 'draft' ) );
-		$this->assertEquals( get_post_status( 1 ), 'draft' );
+		$this->assertEquals( 'draft', get_post_status( 1 )  );
 
 		$this->http_spy();
 
@@ -74,7 +74,7 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 	}
 
 	public function testUpdatedPostTriggersUpdateEvent() {
-		$this->assertEquals( get_post_status( 1 ), 'publish' );
+		$this->assertEquals( 'publish', get_post_status( 1 ) );
 
 		$this->http_spy();
 
