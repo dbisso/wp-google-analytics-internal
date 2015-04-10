@@ -68,13 +68,14 @@ class DBisso_GoogleAnalyticsInternal {
 		$is_trashed     = ('trash' === $status);
 		$is_deleted     = ('delete' === $status);
 		$is_approved    = ('approved' === $status);
-		$is_disapproved = ('unapproved' === $status);
+		$is_unapproved  = ('unapproved' === $status); // Explicity unapproved comment
+
 		$action         = null;
 
 		$submitted_action = self::get_event_action( 'comment_submitted' );
 		$approved_action  = self::get_event_action( 'comment_approved' );
 
-		if ( $is_trashed || $is_deleted ) {
+		if ( $is_trashed || $is_deleted || $is_unapproved ) {
 			return null;
 		}
 
