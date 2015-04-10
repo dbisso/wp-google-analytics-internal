@@ -116,9 +116,11 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 
 	public function dataCommentStatus() {
 		return array(
-			array( 'spam', null ),
-			array( 0, 'Comment Submitted' ),
-			array( 1, 'Comment Approved' ),
+			'spam comment' => array( 'spam', null ),
+			'trashed comment' => array( 'trash', null ),
+			'deleted comment' => array( 'delete', null ),
+			'submitted comment' => array( 'unapproved', 'Comment Submitted' ),
+			'approved comment' => array( 'approved', 'Comment Approved' ),
 		);
 	}
 
@@ -132,9 +134,17 @@ class DBisso_GoogleAnalyticsInternal_Tests extends DBisso_GoogleAnalyticsInterna
 		$this->assertEquals( $expected_action, $action );
 	}
 
+	public function dataNewCommentStatus() {
+		return array(
+			'spam comment' => array( 'spam', null ),
+			'submitted comment' => array( 0, 'Comment Submitted' ),
+			'approved comment' => array( 1, 'Comment Approved' ),
+		);
+	}
+
 	/**
      * Test the triggering of events when a comment is posted and approved
-     * @dataProvider dataCommentStatus
+     * @dataProvider dataNewCommentStatus
 	 */
 	public function testCommentStatusEvent( $status, $expected_action ) {
 		$post_id = 1;
