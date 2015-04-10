@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: dbisso
-Tags: google analytics, events, internal, publish, yoast
+Tags: google analytics, events, internal, comments analytics, publish, yoast
 Requires at least: 3.8.1
 Tested up to: 4.1.1
 Stable tag: 0.3.0
