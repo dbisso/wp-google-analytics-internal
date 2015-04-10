@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: dbisso
-Tags: google analytics, events, internal, publish, yoast
+Tags: google analytics, events, internal, comments analytics, publish, yoast
 Requires at least: 3.8.1
-Tested up to: 3.9
-Stable tag: 0.2.0
+Tested up to: 4.1.1
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -60,6 +60,10 @@ There are currently four actions `publish_post`, `update_posts`, `comment_submit
 
 
 == Changelog ==
+
+= 0.3.0 =
+* Fix: Use Yoast_GA_Options to look for UA string supplied by Yoast's Google Analytics for WordPress.
+* Deleting, trashing or unapproving a comment no longer triggers an event
 
 = 0.2.0 =
 * Feature: Add tracking when a comment is posted or approved.

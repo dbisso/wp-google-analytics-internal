@@ -3,7 +3,7 @@
 Plugin Name: Google Analytics Internal
 Plugin URI: http://danisadesigner.com/plugins/google-analytics-internal
 Description: Use Google Analytics events to track when you publish posts.
-Version: 0.2.0
+Version: 0.3.0
 Author: Dan Bissonnet
 Author URI: http://danisadesigner.com/
 Text Domain: dbisso-google-analytics-internal
