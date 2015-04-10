@@ -65,10 +65,10 @@ class DBisso_GoogleAnalyticsInternal {
 	 */
 	static public function get_comment_event_action( $status ) {
 		$is_spam        = ('spam' === $status);
-		$is_approved    = ('approved' === $status || 1 === (int) $status);
-		$is_disapproved = ('unapproved' === $status || 0 === (int) $status);
 		$is_trashed     = ('trash' === $status);
 		$is_deleted     = ('delete' === $status);
+		$is_approved    = ('approved' === $status);
+		$is_disapproved = ('unapproved' === $status);
 		$action         = null;
 
 		$submitted_action = self::get_event_action( 'comment_submitted' );
@@ -111,9 +111,25 @@ class DBisso_GoogleAnalyticsInternal {
 	 * @param  string|int $status     The comment status.
 	**/
 	static public function action_wp_insert_comment( $comment_id, $comment ) {
-		$action = self::get_comment_event_action( $comment->comment_approved );
+		$status = null;
 
-		if ( self::get_event_action( 'comment_approved' ) && $action === self::get_event_action( 'comment_approved' ) ) {
+		switch ( $comment->comment_approved ) {
+		 	case '0':
+		 		$status = 'unapproved';
+		 		break;
+		 	case '1':
+		 		$status = 'approved';
+		 		break;
+		 	default:
+		 		$status = $comment->comment_approved;
+		 		break;
+	 	}
+
+		$action = self::get_comment_event_action( $status );
+
+		if ( self::get_event_action( 'comment_approved' )
+			&& $action === self::get_event_action( 'comment_approved' ) )
+		{
 			self::maybe_send_post_event( self::get_event_action( 'comment_submitted' ), $comment->comment_post_ID );
 		}
 
