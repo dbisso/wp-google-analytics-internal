@@ -67,10 +67,16 @@ class DBisso_GoogleAnalyticsInternal {
 		$is_spam        = ('spam' === $status);
 		$is_approved    = ('approved' === $status || 1 === (int) $status);
 		$is_disapproved = ('unapproved' === $status || 0 === (int) $status);
+		$is_trashed     = ('trash' === $status);
+		$is_deleted     = ('delete' === $status);
 		$action         = null;
 
 		$submitted_action = self::get_event_action( 'comment_submitted' );
 		$approved_action  = self::get_event_action( 'comment_approved' );
+
+		if ( $is_trashed || $is_deleted ) {
+			return null;
+		}
 
 		// If the comment isn't spam start with the submitted action.
 		if ( ! $is_spam && $submitted_action ) {
