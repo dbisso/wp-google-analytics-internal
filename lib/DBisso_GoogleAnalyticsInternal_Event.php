@@ -94,11 +94,8 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	 * @return string|boolean The UA string to use or false if none found.
 	 */
 	private function get_analytics_ua() {
-		$yoast_config = get_option( 'Yoast_Google_Analytics' );
-		$ua           = false;
-
-		if ( $yoast_config && ! empty( $yoast_config['uastring'] ) ) {
-			$ua = $yoast_config['uastring'];
+		if ( class_exists( 'Yoast_GA_Options' ) ) {
+			$ua = Yoast_GA_Options::instance()->get_tracking_code();
 		}
 
 		if ( defined( 'DBISSO_GA_UA' )  ) {
