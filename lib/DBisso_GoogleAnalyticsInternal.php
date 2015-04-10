@@ -113,6 +113,7 @@ class DBisso_GoogleAnalyticsInternal {
 	static public function action_wp_insert_comment( $comment_id, $comment ) {
 		$status = null;
 
+		// Loose comparison so we compare with strings instead of ints
 		switch ( $comment->comment_approved ) {
 		 	case '0':
 		 		$status = 'unapproved';
