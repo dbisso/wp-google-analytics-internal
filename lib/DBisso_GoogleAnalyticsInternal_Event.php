@@ -5,6 +5,7 @@
 class DBisso_GoogleAnalyticsInternal_Event {
 	private $event;
 	private $action;
+	private $ua_string;
 	private $label = false;
 	private $value = false;
 	private $category = 'WordPress';
@@ -16,10 +17,17 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	 * @param string $label   Event label
 	 * @param int $value      Event value
 	 */
-	public function __construct( $action, $label = false, $value = false ) {
-		$this->action = $action;
-		$this->label  = $label;
-		$this->value  = $value;
+	public function __construct( $action, $label = false, $value = false, $category = 'WordPress', $ua_string = false ) {
+		$this->action   = $action;
+		$this->label    = $label;
+		$this->value    = $value;
+		$this->category = $category;
+
+		if ( ! $ua_string ) {
+			$this->ua_string = $this->get_analytics_ua();
+		} else {
+			$this->ua_string = $ua_string;
+		}
 	}
 
 	/**
@@ -28,15 +36,12 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	 * Checks if a UA string is available before sending
 	 */
 	public function send() {
-		$uastring = $this->get_analytics_ua();
-
-		if ( empty( $uastring ) ) {
+		if ( ! $this->ua_string ) {
 			error_log( __( 'DBisso Google Analytics Internal: UA string not found', 'dbisso-google-analytics-internal' ) );
-			return false;
 		}
 
 		$data = $this->get_post_data_event( $this->action, $this->label, $this->value );
-		$data['tid'] = $uastring;
+		$data['tid'] = $this->ua_string;
 
 		return wp_remote_post(
 			$this->ga_endpoint,
@@ -73,11 +78,10 @@ class DBisso_GoogleAnalyticsInternal_Event {
 	 * @return array The data for the POST request
 	 */
 	private function get_post_data() {
-		$ua = $this->get_analytics_ua();
 
 		$data = array(
 			'v' => 1,
-			'tid' => $ua,
+			'tid' => $this->ua_string,
 			'cid' => get_current_user_id(),
 			'ec' => $this->category,
 		);
