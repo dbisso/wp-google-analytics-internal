@@ -116,7 +116,7 @@ class DBisso_GoogleAnalyticsInternal {
 		// Loose comparison so we compare with strings instead of ints
 		switch ( $comment->comment_approved ) {
 		 	case '0':
-		 		$status = 'unapproved';
+		 		$status = 'hold';
 		 		break;
 		 	case '1':
 		 		$status = 'approved';
