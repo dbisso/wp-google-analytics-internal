@@ -34,7 +34,6 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 		$event_value    = 1;
 
 		$event = new DBisso_GoogleAnalyticsInternal_Event( $event_action, $event_label, $event_value );
-		$event->set_category( $event_category );
 
 		// Spy on HTTP API
 		$this->http_spy();

@@ -104,8 +104,4 @@ class DBisso_GoogleAnalyticsInternal_Event {
 
 		return $ua;
 	}
-
-	public function set_category( $category ) {
-		$this->category = $category;
-	}
 }
