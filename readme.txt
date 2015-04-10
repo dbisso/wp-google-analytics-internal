@@ -61,6 +61,10 @@ There are currently four actions `publish_post`, `update_posts`, `comment_submit
 
 == Changelog ==
 
+= 0.3.0 =
+* Fix: Use Yoast_GA_Options to look for UA string supplied by Yoast's Google Analytics for WordPress.
+* Deleting, trashing or unapproving a comment no longer triggers an event
+
 = 0.2.0 =
 * Feature: Add tracking when a comment is posted or approved.
 * Introduce filter `dbisso_gai_event_data` to filter data just before event is sent.
