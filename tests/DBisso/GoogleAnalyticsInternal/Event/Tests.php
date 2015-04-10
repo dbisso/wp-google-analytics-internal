@@ -23,7 +23,6 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 
 	/**
 	 * @covers DBisso_GoogleAnalyticsInternal_Event::send
-	 * @todo   Implement testSend().
 	 */
 	public function testSend() {
 		$ua_string      = $this->maybeDefineUAString();
@@ -33,7 +32,7 @@ class DBisso_GoogleAnalyticsInternal_Event_Tests extends DBisso_GoogleAnalyticsI
 		$event_action   = 'An action';
 		$event_value    = 1;
 
-		$event = new DBisso_GoogleAnalyticsInternal_Event( $event_action, $event_label, $event_value );
+		$event = new DBisso_GoogleAnalyticsInternal_Event( $event_action, $event_label, $event_value, $event_category );
 
 		// Spy on HTTP API
 		$this->http_spy();
